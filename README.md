@@ -15,3 +15,10 @@ $ poetry run celery -A celery_routing worker -Q long --hostname=long@%h -l info 
 ```bash
 $ poetry run python main.py
 ```
+
+
+### Run tests
+
+```bash
+$ poetry run pytest -sv tests
+```

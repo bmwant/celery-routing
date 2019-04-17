@@ -8,7 +8,7 @@ def fast_task(x, y):
     return x + y
 
 
-@background_task
+@background_task(routing_key='long')
 def long_task(x):
     return x
 
@@ -21,3 +21,8 @@ def default_task(x, y):
 @background_task
 def elasticsearch_task():
     return
+
+
+@background_task(queue='missing')
+def wrong_queue_task():
+    return -1
