@@ -1,5 +1,5 @@
 from celery import Celery
-from kombu import Queue
+from kombu import Queue, Exchange
 
 
 app = Celery('celery_routing')
@@ -19,11 +19,29 @@ app.conf.task_default_exchange_type = 'direct'
 app.conf.task_default_routing_key = 'task'
 app.conf.task_create_missing_queues = False
 
+default_exchange = Exchange('default', type='direct')
+
 app.conf.task_queues = (
-    Queue('default', routing_key='task'),
-    Queue('elasticsearch', routing_key='es'),
-    Queue('fast', routing_key='fast'),
-    Queue('long', routing_key='long'),
+    Queue(
+        name='default',
+        exchange=default_exchange,
+        routing_key='task',
+    ),
+    Queue(
+        name='elasticsearch',
+        exchange=default_exchange,
+        routing_key='es',
+    ),
+    Queue(
+        name='fast',
+        exchange=default_exchange,
+        routing_key='fast',
+    ),
+    Queue(
+        name='long',
+        exchange=default_exchange,
+        routing_key='long',
+    ),
 )
 
 app.autodiscover_tasks([
