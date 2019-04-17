@@ -5,8 +5,9 @@ description = ""
 authors = ["Misha Behersky <bmwant@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.5"
 celery = "=4.2.1"
+redis = "^3.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
