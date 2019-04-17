@@ -44,6 +44,13 @@ app.conf.task_queues = (
     ),
 )
 
+app.conf.task_routes = {
+    'celery_routing.elasticsearch.tasks.*': {
+        'queue': 'elasticsearch',
+        'routing_key': 'es',
+    },
+}
+
 app.autodiscover_tasks([
     'celery_routing',
     'celery_routing.elasticsearch',

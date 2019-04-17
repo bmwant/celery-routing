@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "celery-routing"
 version = "0.1.0"
-description = ""
+description = "Demo Celery routing"
 authors = ["Misha Behersky <bmwant@gmail.com>"]
 
 [tool.poetry.dependencies]

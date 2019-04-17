@@ -1,7 +1,8 @@
+from celery import group
+from celery.result import ResultSet
+
 from celery_routing import tasks
 from celery_routing.queue import background
-
-from celery.result import ResultSet
 
 
 def report(async_result):
@@ -11,7 +12,7 @@ def report(async_result):
         'and returned {r.result}'.format(r=async_result))
 
 
-def main():
+def launch_tasks():
     print('Launching different types of tasks')
     r1 = background(tasks.fast_task, x=5, y=10)
     r1.then(report)
@@ -25,10 +26,23 @@ def main():
     r4 = background(tasks.elasticsearch_task)
     r4.then(report)
 
-    rs = ResultSet([r1, r2, r3])
+    rs = ResultSet([r1, r2, r3, r4])
     rs.join()
     print('Done')
 
 
+def launch_elasticsearch():
+    from celery_routing.elasticsearch.tasks import index_users, index_tweets
+
+    print('Launching indexing')
+    rs = ResultSet([
+        background(index_users),
+        background(index_tweets),
+    ])
+    print(rs.join())
+    print('Done')
+
+
 if __name__ == '__main__':
-    main()
+    launch_tasks()
+    # launch_elasticsearch()
